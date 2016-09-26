@@ -1,0 +1,33 @@
+{
+	"notificationTimestamp":"9/16/16 1:44 PM",
+	"notificationMessage":"Driver[driver[12], truck[48]] has been speeeding at 86 for the last 5 minutes",
+	"infractionDetail":{
+		"truckDriver":{
+			"driverId":12,
+			"truckId":48,
+			"driverName":"Joe Witt",
+			"routeName":"Memphis to Little Rock"
+		},
+		"infractions":[
+			{
+				"count":5,
+				"infractionEvent":"Unsafe tail distance"
+			},
+			{
+				"count":4,
+				"infractionEvent":"Unsafe following distance"
+			},
+			{
+				"count":1,
+				"infractionEvent":"Lane Departure"
+			},
+			{
+				"count":1,
+				"infractionEvent":"Overspeed"
+			}
+		],
+		"averageSpeed":86,
+		"driverSpeeding":true
+	},
+	"alertName":"High Speed Driving for Sustained Period"
+}

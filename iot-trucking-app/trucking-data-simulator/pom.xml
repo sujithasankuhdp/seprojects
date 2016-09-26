@@ -1,0 +1,240 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  	
+  	<modelVersion>4.0.0</modelVersion>
+  	
+	<parent>
+	  	<groupId>hortonworks.hdp.refapp.trucking</groupId>
+	  	<artifactId>iot-trucking-app</artifactId>
+	  	<version>5.0.0-SNAPSHOT</version>
+    </parent>
+      	
+  	<artifactId>trucking-data-simulator</artifactId>
+
+  
+	<properties>
+		
+	</properties>
+	
+	
+	<dependencies>
+		
+		<dependency>
+		    <groupId>org.slf4j</groupId>
+		    <artifactId>slf4j-api</artifactId>
+		    <version>1.7.21</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-slf4j-impl</artifactId>
+		    <version>2.6.2</version>
+		    <scope>provided</scope>
+		</dependency>		
+		
+		<dependency>
+	    	<groupId>org.apache.logging.log4j</groupId>
+	        <artifactId>log4j-core</artifactId>
+	        <version>${log4j2.version}</version>  
+	      	<scope>provided</scope>                   	
+		</dependency>   
+		<dependency>
+	    	<groupId>log4j</groupId>
+	        <artifactId>log4j</artifactId>
+	        <version>${log4j.version}</version>  
+	      	<scope>provided</scope>                   	
+		</dependency>  		       	
+            				
+		<dependency>
+			<groupId>com.typesafe.akka</groupId>
+			<artifactId>akka-actor_2.10</artifactId>
+			<version>2.3-M1</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>2.6</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.activemq</groupId>
+			<artifactId>activemq-core</artifactId>
+			<version>5.7.0</version>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+    				<artifactId>commons-logging</artifactId>
+				</exclusion>			
+			</exclusions>				
+		</dependency>
+		<dependency>
+		    <groupId>commons-codec</groupId>
+		    <artifactId>commons-codec</artifactId>
+		    <version>1.4</version>
+		</dependency>		
+		
+		<!-- Kafka dependencies -->
+		
+		<dependency>
+			<groupId>org.apache.kafka</groupId>
+			<artifactId>kafka_2.10</artifactId>
+			<version>${kafka.version}</version>		
+			<exclusions>
+				<exclusion>
+					<groupId>log4j</groupId>
+    				<artifactId>log4j</artifactId>
+				</exclusion>	
+                <exclusion>
+                	<groupId>org.slf4j</groupId>
+                	<artifactId>slf4j-log4j12</artifactId>
+                </exclusion>						
+			</exclusions>	
+		</dependency>
+    	
+    	<dependency>        
+    		<groupId>org.scala-lang</groupId>        
+    		<artifactId>scala-library</artifactId>        
+    		<version>2.10.2</version>    
+    	</dependency>  
+
+		<dependency>
+			<groupId>org.scala-lang</groupId>
+			<artifactId>scala-reflect</artifactId>
+			<version>2.10.2</version>
+		</dependency>
+
+		<!-- 
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.7.5</version>
+		</dependency>			
+		 -->			    	
+			    	
+		<dependency>        
+			<groupId>com.yammer.metrics</groupId>        
+			<artifactId>metrics-core</artifactId>        
+			<version>2.2.0</version>    
+		</dependency>  
+		
+    	<dependency>
+      		<groupId>org.slf4j</groupId>
+      		<artifactId>slf4j-api</artifactId>
+      		<version>1.6.1</version>
+    	</dependency>		
+    	
+    	<dependency>        
+    		<groupId>com.101tec</groupId>        
+    		<artifactId>zkclient</artifactId>        
+    		<version>0.3</version>  
+			<exclusions>
+				<exclusion>
+					<groupId>log4j</groupId>
+    				<artifactId>log4j</artifactId>
+				</exclusion>			
+			</exclusions>	    		  
+    	</dependency>  		
+	</dependencies>
+	<build>
+		<finalName>stream-simulator</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.4</version>
+				<configuration>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<mainClass>hortonworks.hdp.refapp.trucking.simulator.App</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>2.6</version>
+				<configuration>
+					<includeScope>runtime</includeScope>
+					<outputDirectory>${project.build.directory}</outputDirectory>
+				</configuration>
+				<executions>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			 
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.13</version>
+				<configuration>
+					<skipTests>true</skipTests>
+				</configuration>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>jaxb2-maven-plugin</artifactId>
+				<configuration>
+					<packageName>hortonworks.hdp.refapp.trucking.simulator.impl.domain.transport.route.jaxb</packageName>
+					<outputDirectory>${basedir}/src/main/generated-source</outputDirectory>
+					<schemaDirectory>${basedir}/src/main/resources/xsd</schemaDirectory>
+				</configuration>
+			</plugin>	
+
+					
+		</plugins>
+		
+		<pluginManagement>
+			<plugins>
+			
+				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											org.apache.maven.plugins
+										</groupId>
+										<artifactId>
+											maven-dependency-plugin
+										</artifactId>
+										<versionRange>
+											[2.6,)
+										</versionRange>
+										<goals>
+											<goal>
+												copy-dependencies
+											</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>  
+</project>
